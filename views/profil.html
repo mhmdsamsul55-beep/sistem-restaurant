@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profil</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .profile-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            font-size: 22px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ================= FOTO ================= */
+
+        .photo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .photo-section img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e67e22;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .photo-button {
+            padding: 10px 18px;
+            border: none;
+            background: #e67e22;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .photo-button:hover {
+            background: #cf711f;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #e67e22;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            background: #e67e22;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .save-button:hover {
+            background: #cf711f;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message {
+            padding: 12px;
+            background: #d5f5e3;
+            color: #1e8449;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .error {
+            padding: 12px;
+            background: #fadbd8;
+            color: #c0392b;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <div class="profile-box">
+
+
+            <!-- ================= HEADER ================= -->
+
+            <div class="header">
+
+                <a href="/" class="back">
+                    ← Kembali
+                </a>
+
+                <h2>
+                    Edit Profil
+                </h2>
+
+            </div>
+
+
+            <!-- ================= PESAN ================= -->
+
+            {{if .success}}
+
+            <div class="message">
+                {{.success}}
+            </div>
+
+            {{end}}
+
+
+            {{if .error}}
+
+            <div class="error">
+                {{.error}}
+            </div>
+
+            {{end}}
+
+
+            <!-- ================= FOTO PROFIL ================= -->
+
+            <div class="photo-section">
+
+
+                {{if .picture}}
+
+                <img id="previewFoto" src="{{.picture}}" alt="Foto Profil">
+
+                {{else}}
+
+                <img id="previewFoto" src="https://via.placeholder.com/120" alt="Foto Profil">
+
+                {{end}}
+
+
+                <form id="formFoto" action="/updatefoto" method="POST" enctype="multipart/form-data">
+
+
+                    <!-- Input file disembunyikan -->
+
+                    <input type="file" id="inputFoto" name="foto" accept="image/jpeg,image/png,image/webp" hidden
+                        required>
+
+
+                    <!-- Tombol untuk memilih foto -->
+
+                    <button type="button" class="photo-button" onclick="document.getElementById('inputFoto').click()">
+
+                        Ubah Foto Profil
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- ================= EDIT INFORMASI ================= -->
+
+            <form action="/updateprofil" method="POST">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Nama Lengkap
+                    </label>
+
+                    <input type="text" name="nama_lengkap" value="{{.nama_lengkap}}" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input type="email" name="email" value="{{.email}}" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Nomor HP
+                    </label>
+
+                    <input type="text" name="nomor_hp" value="{{.nomor_hp}}" required>
+
+                </div>
+
+
+                <button type="submit" class="save-button">
+
+                    Simpan Informasi Profil
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ================= PILIH FOTO ================= */
+
+        const inputFoto =
+            document.getElementById("inputFoto");
+
+
+        const previewFoto =
+            document.getElementById("previewFoto");
+
+
+        const formFoto =
+            document.getElementById("formFoto");
+
+
+        inputFoto.addEventListener(
+            "change",
+            function () {
+
+
+                if (inputFoto.files.length > 0) {
+
+
+                    const file =
+                        inputFoto.files[0];
+
+
+                    /* Preview foto */
+
+                    previewFoto.src =
+                        URL.createObjectURL(file);
+
+
+                    /*
+                        Setelah memilih foto,
+                        langsung kirim ke Go
+                    */
+
+                    formFoto.submit();
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

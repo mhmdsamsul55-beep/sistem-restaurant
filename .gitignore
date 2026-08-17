@@ -1,0 +1,21 @@
+# Environment
+.env
+.env.*
+
+# Jangan abaikan contoh env
+!.env.example
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
