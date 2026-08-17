@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register - SamzzResto</title>
+
+    <!-- Font Awesome untuk icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, .55),
+                    rgba(0, 0, 0, .55)),
+                url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            padding: 20px;
+        }
+
+
+        /* =========================
+           REGISTER BOX
+        ========================= */
+
+        .register-box {
+            width: 100%;
+            max-width: 430px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            text-align: center;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #e67e22;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+        .form-group input:focus {
+            border-color: #e67e22;
+        }
+
+        .form-group input.error-input {
+            border-color: #e74c3c;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+            color: red;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+
+            margin-bottom: 5px;
+
+            line-height: 1.3;
+        }
+
+        .error-box {
+            background: #fff1f1;
+
+            border: 1px solid #ffbdbd;
+
+            color: #d63031;
+
+            padding: 10px 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 18px;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           REGISTER BUTTON
+        ========================= */
+
+        .register-button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #e67e22;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: .2s;
+        }
+
+        .register-button:hover {
+            background: #cf711f;
+        }
+
+
+        /* =========================
+           DIVIDER
+        ========================= */
+
+        .divider {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin: 22px 0;
+
+            color: #999;
+
+            font-size: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #ddd;
+        }
+
+
+        /* =========================
+           GOOGLE BUTTON
+        ========================= */
+
+        .google-button {
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: #333;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .google-button:hover {
+            background: #f5f5f5;
+        }
+
+
+        /* =========================
+           LOGIN TEXT
+        ========================= */
+
+        .login-text {
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 13px;
+
+            color: #777;
+        }
+
+        .login-text a {
+            color: #e67e22;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           BACK
+        ========================= */
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #777;
+
+            font-size: 12px;
+
+            text-decoration: none;
+        }
+
+        .back:hover {
+            color: #e67e22;
+        }
+
+
+        /* =========================
+           SOCIAL MEDIA
+        ========================= */
+
+        .social-section {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #eee;
+
+            text-align: center;
+        }
+
+        .social-title {
+            font-size: 12px;
+
+            color: #999;
+
+            margin-bottom: 12px;
+        }
+
+        .social-links {
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #f5f5f5;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-size: 17px;
+
+            transition: .2s;
+        }
+
+        .social-links a:hover {
+            background: #e67e22;
+
+            color: white;
+
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 12px;
+
+            font-size: 10px;
+
+            color: #aaa;
+        }
+
+
+        /* =================================================
+           SUCCESS POPUP
+        ================================================= */
+
+        .success-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, .6);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+
+            padding: 20px;
+        }
+
+        .success-box {
+            width: 100%;
+
+            max-width: 350px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 32px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, .3);
+
+            animation: popup .35s ease;
+        }
+
+
+        @keyframes popup {
+
+            0% {
+                transform: scale(.6);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================
+           CHECK CIRCLE
+        ========================= */
+
+        .check-circle {
+            width: 78px;
+
+            height: 78px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #2ecc71;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            animation: checkCircle .5s ease;
+        }
+
+        @keyframes checkCircle {
+
+            0% {
+                transform: scale(0);
+            }
+
+            60% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        /* =========================
+           CHECK
+        ========================= */
+
+        .check {
+            color: white;
+
+            font-size: 45px;
+
+            font-weight: bold;
+
+            line-height: 1;
+
+            animation: checkAppear .3s ease .2s both;
+        }
+
+        @keyframes checkAppear {
+
+            from {
+                opacity: 0;
+
+                transform: scale(.5);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: scale(1);
+            }
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        .success-box h2 {
+            color: #333;
+
+            font-size: 21px;
+
+            margin-bottom: 9px;
+        }
+
+        .success-box p {
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 22px;
+        }
+
+        .success-button {
+            display: inline-block;
+
+            padding: 11px 27px;
+
+            border-radius: 7px;
+
+            background: #e67e22;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+        .success-button:hover {
+            background: #cf711f;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 480px) {
+
+            .register-box {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .social-links a {
+                width: 36px;
+
+                height: 36px;
+
+                font-size: 16px;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         REGISTER FORM
+    =========================================== -->
+
+    <div class="register-box">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+            Sammzz<span>Resto</span>
+        </div>
+
+
+        <p class="subtitle">
+            Buat akun baru
+        </p>
+
+
+        <!-- GENERAL ERROR -->
+
+        {{if .error}}
+
+        <div class="error-box">
+            {{.error}}
+        </div>
+
+        {{end}}
+
+
+        <!-- FORM -->
+
+        <form action="/register" method="POST">
+
+
+            <!-- NAMA -->
+
+            <div class="form-group">
+
+                <label>
+                    Nama Lengkap
+                </label>
+
+                <input type="text" name="nama_lengkap" placeholder="Nama lengkap">
+
+                {{if .nameError}}
+
+                <div class="error">
+                    {{.nameError}}
+                </div>
+
+                {{end}}
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input type="email" name="email" placeholder="Email">
+
+                {{if .emailError}}
+
+                <div class="error">
+                    {{.emailError}}
+                </div>
+
+                {{end}}
+
+            </div>
+
+
+            <!-- NOMOR HP -->
+
+            <div class="form-group">
+
+                <label>
+                    Nomor HP
+                </label>
+
+                <input type="tel" name="nomor_hp" placeholder="08xxxxxxxxxx">
+
+                {{if .nomerError}}
+
+                <div class="error">
+                    {{.nomerError}}
+                </div>
+
+                {{end}}
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input type="password" name="password" placeholder="Password">
+
+                {{if .passwordError}}
+
+                <div class="error">
+                    {{.passwordError}}
+                </div>
+
+                {{end}}
+
+            </div>
+
+
+            <!-- KONFIRMASI PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Konfirmasi Password
+                </label>
+
+                <input type="password" name="konfirmasi_password" placeholder="Ulangi password">
+
+                {{if .konfirmasiError}}
+
+                <div class="error">
+                    {{.konfirmasiError}}
+                </div>
+
+                {{end}}
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button type="submit" class="register-button">
+
+                Register
+
+            </button>
+
+        </form>
+
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+            atau
+        </div>
+
+
+        <!-- GOOGLE -->
+
+        <button type="button" class="google-button" onclick="window.location.href='/auth/google'">
+
+            <i class="fa-brands fa-google"></i>
+            Daftar dengan Google
+
+        </button>
+
+
+        <!-- LOGIN -->
+
+        <p class="login-text">
+
+            Sudah punya akun?
+
+            <a href="/login">
+                Login
+            </a>
+
+        </p>
+
+
+        <!-- BACK -->
+
+        <a href="/login" class="back">
+
+            Kembali ke halaman login
+
+        </a>
+
+
+        <!-- ======================================
+             SOCIAL MEDIA
+        ======================================= -->
+
+        <div class="social-section">
+
+            <div class="social-title">
+                Ikuti dan hubungi kami
+            </div>
+
+
+            <div class="social-links">
+
+                <!-- GITHUB -->
+
+                <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" title="GitHub">
+
+                    <i class="fa-brands fa-github"></i>
+
+                </a>
+
+
+                <!-- INSTAGRAM -->
+
+                <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer" title="Instagram">
+
+                    <i class="fa-brands fa-instagram"></i>
+
+                </a>
+
+
+                <!-- EMAIL -->
+
+                <a href="mailto:emailkamu@gmail.com" title="Email">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                </a>
+
+            </div>
+
+
+            <div class="copyright">
+                © 2026 SammzzzGO
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         POPUP REGISTRASI BERHASIL
+    ================================================== -->
+
+    {{if .success}}
+
+    <div class="success-overlay">
+
+        <div class="success-box">
+
+
+            <div class="check-circle">
+
+                <div class="check">
+                    ✓
+                </div>
+
+            </div>
+
+
+            <h2>
+                Registrasi Berhasil!
+            </h2>
+
+
+            <p>
+
+                Akun kamu berhasil dibuat.
+
+                <br>
+
+                Silakan login untuk melanjutkan.
+
+            </p>
+
+
+            <a href="/login" class="success-button">
+
+                Login Sekarang
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {{end}}
+
+
+</body>
+
+</html>
