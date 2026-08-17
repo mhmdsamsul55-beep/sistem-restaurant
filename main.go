@@ -8,6 +8,7 @@ import (
 	"Auth/middleware"
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/joho/godotenv"
@@ -17,9 +18,12 @@ var templates *template.Template
 
 func main() {
 
+	// Load .env jika ada.
+	// Di Railway, environment variable berasal dari Railway Variables.
 	godotenv.Load()
 
 	config.InitSessionStore()
+
 	auth, err := oauth.NewAuthenticator()
 	if err != nil {
 		log.Fatalf("Failed to initialize the authenticator: %v", err)
@@ -44,7 +48,15 @@ func main() {
 	http.HandleFunc("/admin/pesanan/status", controller.UpdateOrderStatusAdmin)
 	http.HandleFunc("/pesanan", controller.CreateOrder)
 	http.HandleFunc("/pesanan/saya", controller.GetUserOrders)
-	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+
+	http.Handle(
+		"/assets/",
+		http.StripPrefix(
+			"/assets/",
+			http.FileServer(http.Dir("assets")),
+		),
+	)
+
 	http.Handle(
 		"/uploads/",
 		http.StripPrefix(
@@ -53,5 +65,18 @@ func main() {
 		),
 	)
 
-	http.ListenAndServe(":8080", nil)
+	// Railway memberikan PORT melalui environment variable
+	port := os.Getenv("PORT")
+
+	// Untuk menjalankan project secara lokal
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Println("Server berjalan di port", port)
+
+	err = http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		log.Fatal("Server gagal berjalan:", err)
+	}
 }
