@@ -77,58 +77,140 @@ func Tambah(w http.ResponseWriter, r *http.Request) {
 		}
 
 	case http.MethodPost:
-		err := r.ParseMultipartForm(10 << 20) // maksimal 10 MB
+
+		err := r.ParseMultipartForm(10 << 20)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(
+				w,
+				"Gagal membaca form: "+err.Error(),
+				http.StatusBadRequest,
+			)
 			return
 		}
+
+		// ==============================
+		// AMBIL GAMBAR
+		// ==============================
+
 		file, handler, err := r.FormFile("gambar")
+
 		if err != nil {
-			http.Error(w, "Gambar tidak ditemukan: "+err.Error(), http.StatusBadRequest)
+			http.Error(
+				w,
+				"Gambar tidak ditemukan: "+err.Error(),
+				http.StatusBadRequest,
+			)
 			return
 		}
+
 		defer file.Close()
-		err = os.MkdirAll("assets/images", os.ModePerm)
-		if err != nil {
-			http.Error(w, "Gagal membuat folder gambar: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
-		dst, err := os.Create(
-			filepath.Join("assets/images", handler.Filename),
+
+		err = os.MkdirAll(
+			"assets/images",
+			os.ModePerm,
 		)
+
 		if err != nil {
-			http.Error(w, "Gagal menyimpan gambar: "+err.Error(), http.StatusInternalServerError)
+			http.Error(
+				w,
+				"Gagal membuat folder gambar: "+err.Error(),
+				http.StatusInternalServerError,
+			)
 			return
 		}
+
+		dst, err := os.Create(
+			filepath.Join(
+				"assets/images",
+				handler.Filename,
+			),
+		)
+
+		if err != nil {
+			http.Error(
+				w,
+				"Gagal menyimpan gambar: "+err.Error(),
+				http.StatusInternalServerError,
+			)
+			return
+		}
+
 		defer dst.Close()
 
 		_, err = io.Copy(dst, file)
-		if err != nil {
-			http.Error(w, "Gagal menyalin gambar: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
-		namaProduk := r.Form.Get("nama_produk")
-		deskripsi := r.Form.Get("deskripsi")
-		kategori := r.Form.Get("kategori")
 
-		harga, err := strconv.ParseFloat(r.Form.Get("harga"), 64)
 		if err != nil {
-			http.Error(w, "Harga tidak valid", http.StatusBadRequest)
+			http.Error(
+				w,
+				"Gagal menyalin gambar: "+err.Error(),
+				http.StatusInternalServerError,
+			)
 			return
 		}
 
-		stok, err := strconv.Atoi(r.Form.Get("stok"))
+		// ==============================
+		// DATA PRODUK
+		// ==============================
+
+		namaProduk := r.FormValue("nama_produk")
+		deskripsi := r.FormValue("deskripsi")
+		kategori := r.FormValue("kategori")
+
+		// ==============================
+		// HARGA
+		// ==============================
+
+		harga, err := strconv.ParseFloat(
+			r.FormValue("harga"),
+			64,
+		)
+
 		if err != nil {
-			http.Error(w, "Stok tidak valid", http.StatusBadRequest)
+			http.Error(
+				w,
+				"Harga tidak valid",
+				http.StatusBadRequest,
+			)
 			return
 		}
+
+		// ==============================
+		// STOK
+		// ==============================
+
+		stok, err := strconv.Atoi(
+			r.FormValue("stok"),
+		)
+
+		if err != nil {
+			http.Error(
+				w,
+				"Stok tidak valid",
+				http.StatusBadRequest,
+			)
+			return
+		}
+
+		// ==============================
+		// KATEGORI
+		// ==============================
+
 		if kategori != "makanan" &&
 			kategori != "minuman" &&
 			kategori != "dessert" {
 
-			http.Error(w, "Kategori tidak valid", http.StatusBadRequest)
+			http.Error(
+				w,
+				"Kategori tidak valid",
+				http.StatusBadRequest,
+			)
 			return
 		}
+
+		// ==============================
+		// BUAT OBJECT PRODUK
+		// ==============================
+
 		produk := entities.Products{
 			NamaProduk: namaProduk,
 			Deskripsi:  deskripsi,
@@ -136,38 +218,50 @@ func Tambah(w http.ResponseWriter, r *http.Request) {
 			Stok:       stok,
 			Kategori:   kategori,
 			Gambar:     handler.Filename,
-			CreatedAt:  time.Now().Format("2006-01-02 15:04:05"),
-			UpdatedAt:  time.Now().Format("2006-01-02 15:04:05"),
+			CreatedAt:  time.Now().Format(
+				"2006-01-02 15:04:05",
+			),
+			UpdatedAt:  time.Now().Format(
+				"2006-01-02 15:04:05",
+			),
 		}
 
-		idStr := r.FormValue("id")
+		// ==============================
+		// SIMPAN PRODUK
+		// ==============================
 
-		productID, err := strconv.Atoi(idStr)
-		if err != nil {
-			http.Error(w, "ID produk tidak valid", http.StatusBadRequest)
-			return
-		}
-		jumlahStr := r.FormValue("jumlah")
-
-		jumlah, err := strconv.Atoi(jumlahStr)
-		if err != nil || jumlah <= 0 {
-			http.Error(w, "Jumlah tidak valid", http.StatusBadRequest)
-			return
-		}
 		err = ProductsModel.Create(produk)
+
 		if err != nil {
-			http.Error(w, "Gagal menyimpan produk: "+err.Error(), http.StatusInternalServerError)
+			http.Error(
+				w,
+				"Gagal menyimpan produk: "+err.Error(),
+				http.StatusInternalServerError,
+			)
 			return
 		}
-		err = ProductsModel.KurangiStok(productID, jumlah)
-		if err != nil {
-			// tampilkan error
-		}
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+		// ==============================
+		// SELESAI
+		// ==============================
+
+		http.Redirect(
+			w,
+			r,
+			"/admin",
+			http.StatusSeeOther,
+		)
+
 	default:
-		http.Error(w, "Method tidak diizinkan", http.StatusMethodNotAllowed)
+
+		http.Error(
+			w,
+			"Method tidak diizinkan",
+			http.StatusMethodNotAllowed,
+		)
 	}
 }
+
 func Search(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodGet {

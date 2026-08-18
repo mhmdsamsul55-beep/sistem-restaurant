@@ -99,7 +99,7 @@ func (m *OrderModel) GetByUserID(userID int64) ([]entities.Order, error) {
 		if len(createdAt) > 0 {
 
 			order.CreatedAt, err = time.Parse(
-				"2006-01-02 15:04:05",
+				time.RFC3339,
 				string(createdAt),
 			)
 
@@ -165,7 +165,7 @@ func (m *OrderModel) GetAllOrders() ([]entities.Order, error) {
 		// Convert created_at
 		if len(createdAt) > 0 {
 			order.CreatedAt, err = time.Parse(
-				"2006-01-02 15:04:05",
+				time.RFC3339,
 				string(createdAt),
 			)
 
